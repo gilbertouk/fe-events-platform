@@ -1,11 +1,7 @@
-import { Button } from '@/components/ui/button';
+import NavBar from './components/NavBar';
 
 const App = () => {
-  return (
-    <>
-      <Button>Click me</Button>
-    </>
-  );
+  return <NavBar />;
 };
 
 export default App;
