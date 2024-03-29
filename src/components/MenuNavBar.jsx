@@ -7,7 +7,7 @@ import { SheetTrigger, SheetContent, Sheet } from '@/components/ui/sheet';
 import SearchIcon from './icons/SearchIcon';
 import MenuIcon from './icons/MenuIcon';
 
-const NavBar = () => {
+const MenuNavBar = () => {
   return (
     <header className="bg-black text-white py-4">
       <div className="max-w-7xl mx-auto px-4 flex justify-between items-center">
@@ -63,4 +63,4 @@ const NavBar = () => {
   );
 };
 
-export default NavBar;
+export default MenuNavBar;
