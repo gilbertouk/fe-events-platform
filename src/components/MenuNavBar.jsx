@@ -1,4 +1,8 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+
+import { signOut } from 'firebase/auth';
+import auth from '../config/firebase';
+import useAuthContext from '../hooks/useAuthContext';
 
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -8,6 +12,23 @@ import SearchIcon from './icons/SearchIcon';
 import MenuIcon from './icons/MenuIcon';
 
 const MenuNavBar = () => {
+  const navigate = useNavigate();
+  const { currentUser, setCurrentUser } = useAuthContext();
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+    } catch (error) {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.log(errorCode, errorMessage);
+    } finally {
+      localStorage.removeItem('token');
+      setCurrentUser(null);
+      navigate('/');
+    }
+  };
+
   return (
     <header className="bg-black text-white py-4">
       <div className="max-w-7xl mx-auto px-4 flex justify-between items-center">
@@ -28,9 +49,23 @@ const MenuNavBar = () => {
             <Link className="hover:underline" href="#">
               Categorias
             </Link>
-            <Link className="hover:underline" href="#">
-              Login
-            </Link>
+            {!currentUser && (
+              <Link to="/login" className="hover:underline" href="#">
+                Login
+              </Link>
+            )}
+
+            {currentUser && (
+              // <Button
+              //   className="bg-black hover:bg-black hover:text-white hover:underline border-none"
+              //   variant="outline"
+              // >
+              //   Logout
+              // </Button>
+              <Link className="hover:underline" onClick={handleLogout}>
+                Logout
+              </Link>
+            )}
           </nav>
           <Sheet>
             <SheetTrigger asChild>
