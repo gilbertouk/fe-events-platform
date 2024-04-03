@@ -32,7 +32,11 @@ const MenuNavBar = () => {
   return (
     <header className="bg-black text-white py-4">
       <div className="max-w-7xl mx-auto px-4 flex justify-between items-center">
-        <h1 className="text-3xl font-bold">EVENTS</h1>
+        <h1 className="text-3xl font-bold">
+          <Link to={'/'} className="hover:none" href="#">
+            EVENTS
+          </Link>
+        </h1>
         <div className="flex items-center">
           <div className="relative mr-6 hidden md:block">
             <Input
