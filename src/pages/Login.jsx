@@ -1,7 +1,11 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import {
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider,
+} from 'firebase/auth';
 import auth from '../config/firebase';
 import useAuthContext from '../hooks/useAuthContext';
 
@@ -22,6 +26,7 @@ const schema = z.object({
 });
 
 const Login = () => {
+  auth.useDeviceLanguage();
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
   const { setCurrentUser } = useAuthContext();
@@ -37,12 +42,12 @@ const Login = () => {
   const handleLogin = async (data) => {
     setErrorMessage('');
     try {
-      const user = await signInWithEmailAndPassword(
+      const result = await signInWithEmailAndPassword(
         auth,
         data.email,
         data.password,
       );
-      console.log(user);
+      const user = result.user;
       localStorage.setItem('token', user.accessToken);
       setCurrentUser(user);
       navigate('/');
@@ -60,6 +65,28 @@ const Login = () => {
       }
 
       setErrorMessage('Invalid email or password');
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    setErrorMessage('');
+    try {
+      const provider = new GoogleAuthProvider();
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+      localStorage.setItem('token', user.accessToken);
+      setCurrentUser(user);
+      navigate('/');
+    } catch (error) {
+      // Handle Errors here.
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      // The email of the user's account used.
+      const email = error.customData.email;
+      // The AuthCredential type that was used.
+      const credential = GoogleAuthProvider.credentialFromError(error);
+
+      console.log(errorCode, errorMessage, email, credential);
     }
   };
 
@@ -112,7 +139,11 @@ const Login = () => {
             <Separator />
           </div>
           <div className="space-y-4">
-            <Button className="w-full" variant="outline">
+            <Button
+              className="w-full"
+              variant="outline"
+              onClick={handleGoogleLogin}
+            >
               Login with Google
             </Button>
             <div className="mt-4 text-center text-sm">
