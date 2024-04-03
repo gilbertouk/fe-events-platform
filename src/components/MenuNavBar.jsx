@@ -38,7 +38,7 @@ const MenuNavBar = () => {
           </Link>
         </h1>
         <div className="flex items-center">
-          <div className="relative mr-6 hidden md:block">
+          <div className="relative mr-6 hidden lg:block">
             <Input
               className="pl-10 pr-4 py-2 rounded-md text-black"
               placeholder="What are you looking for?"
@@ -60,15 +60,12 @@ const MenuNavBar = () => {
             )}
 
             {currentUser && (
-              // <Button
-              //   className="bg-black hover:bg-black hover:text-white hover:underline border-none"
-              //   variant="outline"
-              // >
-              //   Logout
-              // </Button>
-              <Link className="hover:underline" onClick={handleLogout}>
-                Logout
-              </Link>
+              <>
+                <p>Welcome: {currentUser?.displayName}</p> |
+                <Link className="hover:underline" onClick={handleLogout}>
+                  Logout
+                </Link>
+              </>
             )}
           </nav>
           <Sheet>
@@ -90,9 +87,20 @@ const MenuNavBar = () => {
                 <Link className="hover:underline" href="#">
                   Categorias
                 </Link>
-                <Link className="hover:underline" href="#">
-                  Login
-                </Link>
+                {!currentUser && (
+                  <Link to="/login" className="hover:underline" href="#">
+                    Login
+                  </Link>
+                )}
+
+                {currentUser && (
+                  <>
+                    <p>Welcome: {currentUser?.displayName}</p>
+                    <Link className="hover:underline" onClick={handleLogout}>
+                      Logout
+                    </Link>
+                  </>
+                )}
               </nav>
             </SheetContent>
           </Sheet>
