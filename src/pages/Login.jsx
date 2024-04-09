@@ -91,12 +91,14 @@ const Login = () => {
   };
 
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col h-screen bg-gray-100">
       <main className="flex flex-1 items-center justify-center p-4">
-        <div className="mx-auto max-w-sm space-y-4">
+        <div className="mx-auto max-w-md space-y-4 bg-white px-3 py-6 rounded-t">
           <div className="space-y-2 text-center">
-            <h1 className="text-3xl font-bold">Login</h1>
-            <p className="text-gray-500 dark:text-gray-400">
+            <h1 className="font-roboto text-lg sm:text-2xl lg:text-4xl font-bold">
+              Login
+            </h1>
+            <p className="text-slate-500 text-sm sm:text-base">
               Enter your email below to login to your account
             </p>
           </div>

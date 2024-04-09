@@ -69,11 +69,13 @@ const Register = () => {
   };
 
   return (
-    <div className="px-4 py-12 sm:px-6 lg:px-8">
-      <main className="mx-auto max-w-2xl space-y-8">
+    <div className="h-screen px-4 py-12 sm:px-6 lg:px-8 bg-gray-100">
+      <main className="mx-auto max-w-2xl space-y-8 bg-white px-3 py-6 rounded-t">
         <div className="space-y-2 text-center">
-          <h1 className="text-3xl font-bold">Sign Up</h1>
-          <p className="text-gray-500 dark:text-gray-400">
+          <h1 className="font-roboto text-lg sm:text-2xl lg:text-4xl">
+            Sign Up
+          </h1>
+          <p className="text-slate-500 text-sm sm:text-base">
             Enter your information to create an account
           </p>
         </div>

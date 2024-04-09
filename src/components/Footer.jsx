@@ -9,7 +9,7 @@ const Footer = () => {
 
   return (
     <footer>
-      <div className="bg-black mt-2 md:mt-4 flex flex-col items-center justify-center gap-12 sm:flex-row sm:items-start sm:justify-evenly py-4 px-8">
+      <div className="bg-black flex flex-col items-center justify-center gap-12 sm:flex-row sm:items-start sm:justify-evenly py-4 px-8">
         <div className="text-white">
           <p className="text-base sm:text-lg mb-2">FIND EVENTS</p>
           <ul className="text-xs sm:text-sm flex gap-1 flex-col items-center sm:items-start">
@@ -86,7 +86,7 @@ const Footer = () => {
           </ul>
         </div>
       </div>
-      <div className="bg-white text-center">
+      <div className="bg-gray-100 p-2 text-center">
         <p>&copy; {getYear()}, Events Platform. All rights reserved</p>
       </div>
     </footer>

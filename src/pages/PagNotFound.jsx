@@ -4,12 +4,12 @@ import { ChevronRightIcon } from 'lucide-react';
 
 const PageNotFound = () => {
   return (
-    <div className="flex flex-col items-center justify-center w-full min-h-[75vh] py-12 space-y-4 md:min-h-[50vh] md:space-y-8">
+    <div className="flex flex-col items-center justify-center w-full h-screen py-12 space-y-4 md:space-y-10 bg-gray-100">
       <div className="flex flex-col items-center justify-center space-y-2">
-        <h1 className="text-4xl font-extrabold tracking-tighter sm:text-5xl">
+        <h1 className="font-roboto text-center text-lg sm:text-2xl lg:text-4xl">
           Page Not Found
         </h1>
-        <p className="max-w-[600px] text-gray-500 text-center md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
+        <p className="max-w-[600px] text-slate-500 text-center text-sm sm:text-base">
           The page you are looking for might have been removed had its name
           changed or is temporarily unavailable.
         </p>
