@@ -4,6 +4,7 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import PageNotFound from './pages/PagNotFound';
+import EventPage from './pages/EventPage';
 
 import ScrollToTop from './components/ScrollToTop';
 import MenuNavBar from './components/MenuNavBar';
@@ -17,6 +18,7 @@ const AppRoutes = () => {
 
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/event/:id" element={<EventPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="*" element={<PageNotFound />} />

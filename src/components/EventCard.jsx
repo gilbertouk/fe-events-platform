@@ -1,3 +1,5 @@
+import { useNavigate } from 'react-router-dom';
+
 import {
   Card,
   CardContent,
@@ -7,10 +9,17 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import CalendarDays from './icons/CalendarDays';
-import MapPin from './icons/MapPin';
+import CalendarDays from '@/components/icons/CalendarDays';
+import MapPin from '@/components/icons/MapPin';
 
 const EventCard = ({ event }) => {
+  const navigate = useNavigate();
+
+  const handleSelectedEvent = (e) => {
+    e.preventDefault();
+    navigate(`/event/${event.id}`);
+  };
+
   return (
     <Card className="w-[380px] h-auto md:h-[472px] shadow-xl shadow-gray-300">
       <CardHeader className="p-0 object-cover">
@@ -32,7 +41,9 @@ const EventCard = ({ event }) => {
         <p className="text-sm sm:text-base">
           {event.price === 'Free' ? `${event.price}` : `£ ${event.price}`}
         </p>
-        <Button className="w-24 sm:w-32">Buy Now</Button>
+        <Button className="w-24 sm:w-32" onClick={handleSelectedEvent}>
+          Buy Now
+        </Button>
       </CardFooter>
     </Card>
   );
