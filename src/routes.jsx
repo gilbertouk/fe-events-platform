@@ -7,6 +7,7 @@ import PageNotFound from './pages/PagNotFound';
 
 import ScrollToTop from './components/ScrollToTop';
 import MenuNavBar from './components/MenuNavBar';
+import Footer from './components/Footer';
 
 const AppRoutes = () => {
   return (
@@ -20,6 +21,8 @@ const AppRoutes = () => {
         <Route path="/register" element={<Register />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
+
+      <Footer />
     </BrowserRouter>
   );
 };
