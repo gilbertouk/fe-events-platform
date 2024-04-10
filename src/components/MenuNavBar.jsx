@@ -39,20 +39,23 @@ const MenuNavBar = () => {
             <Link className="hover:underline" to={'/'}>
               Home
             </Link>
-            <Link className="hover:underline" to={'/categories'}>
-              Categories
-            </Link>
             {!currentUser && (
               <Link to="/login" className="hover:underline" href="#">
-                Login
+                <Button>Login</Button>
               </Link>
             )}
 
             {currentUser && (
               <>
-                <p>Welcome: {currentUser?.displayName}</p> |
-                <Link className="hover:underline" onClick={handleLogout}>
-                  Logout
+                <p>
+                  Welcome:&nbsp;
+                  <Link to="/profile" className="hover:underline sm:underline">
+                    {currentUser?.displayName}
+                  </Link>
+                </p>
+                |
+                <Link className="hover:underline">
+                  <Button onClick={handleLogout}>Logout</Button>
                 </Link>
               </>
             )}
@@ -78,15 +81,15 @@ const MenuNavBar = () => {
                 </Link>
                 {!currentUser && (
                   <Link to="/login" className="hover:underline" href="#">
-                    Login
+                    <Button>Login</Button>
                   </Link>
                 )}
 
                 {currentUser && (
                   <>
                     <p>Welcome: {currentUser?.displayName}</p>
-                    <Link className="hover:underline" onClick={handleLogout}>
-                      Logout
+                    <Link className="hover:underline">
+                      <Button onClick={handleLogout}>Logout</Button>
                     </Link>
                   </>
                 )}
