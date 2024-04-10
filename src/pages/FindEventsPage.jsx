@@ -1,26 +1,25 @@
 import { useSearchParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
-import { eventsExamples } from '@/mockData/events';
 import EventCard from '@/components/EventCard';
-import SeMore from '@/components/SeMore';
 
-const CategoryPage = () => {
+import { eventsExamples } from '@/mockData/events';
+
+const FindEventsPage = () => {
   const [searchParams] = useSearchParams();
   const [events, setEvents] = useState({});
   const [loading, setLoading] = useState(true);
-  const categoryName = searchParams.get('category_name');
+  const filter = searchParams.get('filter');
+  const value = searchParams.get('value');
 
   useEffect(() => {
-    if (categoryName) {
+    if (filter && value) {
       setLoading(true);
-      const eventsArray = eventsExamples.filter(
-        (e) => e.category === categoryName,
-      );
+      const eventsArray = eventsExamples.filter((e) => e[filter] === value);
       setEvents(eventsArray);
       setLoading(false);
     }
-  }, [categoryName]);
+  }, [filter, value]);
 
   if (loading) {
     return (
@@ -42,11 +41,10 @@ const CategoryPage = () => {
               return <EventCard key={event.id} event={event} />;
             })}
           </div>
-          <SeMore />
         </div>
       </section>
     </main>
   );
 };
 
-export default CategoryPage;
+export default FindEventsPage;

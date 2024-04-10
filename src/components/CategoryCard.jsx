@@ -9,7 +9,7 @@ const CategoryCard = ({ category }) => {
 
   const handleCategory = (e) => {
     e.preventDefault();
-    navigate(`/events/category?category_name=${category.name}`);
+    navigate(`/events/find?filter=category&value=${category.name}`);
   };
 
   return (
