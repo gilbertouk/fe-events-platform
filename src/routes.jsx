@@ -1,11 +1,11 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-import Home from './pages/Home';
-import Login from './pages/Login';
-import Register from './pages/Register';
+import HomePage from './pages/Home';
+import LoginPage from './pages/Login';
+import RegisterPage from './pages/Register';
 import PageNotFound from './pages/PagNotFound';
-import EventPage from './pages/EventPage';
-import FindEventsPage from './pages/FindEventsPage';
+import EventPage from './pages/Event';
+import FindEventsPage from './pages/FindEvents';
 
 import ScrollToTop from './components/ScrollToTop';
 import MenuNavBar from './components/MenuNavBar';
@@ -18,10 +18,10 @@ const AppRoutes = () => {
       <MenuNavBar />
 
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<HomePage />} />
         <Route path="/event/:id" element={<EventPage />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
         <Route path="/events/find" element={<FindEventsPage />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>

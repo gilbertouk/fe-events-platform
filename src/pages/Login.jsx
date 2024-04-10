@@ -25,7 +25,7 @@ const schema = z.object({
   password: z.string().min(8, { message: 'Must be 8 or more characters long' }),
 });
 
-const Login = () => {
+const LoginPage = () => {
   auth.useDeviceLanguage();
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
@@ -167,4 +167,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoginPage;

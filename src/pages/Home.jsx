@@ -5,7 +5,7 @@ import SearchBar from '@/components/SearchBar';
 
 import { eventsExamples, trendingEventsExamples } from '@/mockData/events';
 
-const Home = () => {
+const HomePage = () => {
   return (
     <main>
       <section
@@ -64,4 +64,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default HomePage;

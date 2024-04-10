@@ -38,7 +38,7 @@ const schema = z
     path: ['terms'],
   });
 
-const Register = () => {
+const RegisterPage = () => {
   const navigate = useNavigate();
   const { setCurrentUser } = useAuthContext();
 
@@ -160,4 +160,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default RegisterPage;
