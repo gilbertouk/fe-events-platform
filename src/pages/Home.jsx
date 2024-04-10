@@ -4,7 +4,6 @@ import SeMore from '@/components/SeMore';
 import SearchBar from '@/components/SearchBar';
 
 import { eventsExamples, trendingEventsExamples } from '@/mockData/events';
-import { categoriesExamples } from '@/mockData/categories';
 
 const Home = () => {
   return (
@@ -46,7 +45,7 @@ const Home = () => {
           Browser By Category
         </h2>
         <div>
-          <CarouselCategory categories={categoriesExamples} />
+          <CarouselCategory />
         </div>
       </section>
       <section className="bg-gray-100 pb-6">

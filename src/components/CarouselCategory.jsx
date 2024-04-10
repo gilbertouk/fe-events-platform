@@ -10,7 +10,9 @@ import {
 } from '@/components/ui/carousel';
 import CategoryCard from './CategoryCard';
 
-const CarouselCategory = ({ categories }) => {
+import { categoriesExamples } from '@/mockData/categories';
+
+const CarouselCategory = () => {
   const plugin = React.useRef(
     Autoplay({ delay: 2000, stopOnInteraction: true }),
   );
@@ -27,9 +29,9 @@ const CarouselCategory = ({ categories }) => {
       onMouseLeave={plugin.current.reset}
     >
       <CarouselContent>
-        {categories.map((category, index) => (
+        {categoriesExamples.map((category) => (
           <CarouselItem
-            key={index}
+            key={category.name}
             className="basis-auto sm:basis-1/2 md:basis-1/3 lg:basis-1/5 xl:basis-1/6"
           >
             <CategoryCard category={category} />
