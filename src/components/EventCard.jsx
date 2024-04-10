@@ -21,14 +21,18 @@ const EventCard = ({ event }) => {
   };
 
   return (
-    <Card className="w-[380px] h-auto md:h-[472px] shadow-xl shadow-gray-300">
+    <Card className="w-[380px] h-auto shadow-xl shadow-gray-300">
       <CardHeader className="p-0 object-cover">
         <img alt="Event image" src="/event.png" className="rounded-t" />
       </CardHeader>
-      <CardContent className="px-3 pt-3 md:px-7 md:pt-7 min-h-48">
+      <CardContent className="px-3 pt-3 md:px-7 md:pt-7 min-h-60">
         <CardTitle className="font-roboto font-bold text-sm sm:text-lg lg:text-xl text-start mb-4">
           {event.name}
         </CardTitle>
+        <CardDescription className="flex gap-3 text-xs sm:text-sm justify-start items-center mb-4">
+          <CalendarDays />
+          {event.category}
+        </CardDescription>
         <CardDescription className="flex gap-3 text-xs sm:text-sm justify-start items-center mb-4">
           <CalendarDays />
           {event.date}
@@ -37,12 +41,12 @@ const EventCard = ({ event }) => {
           <MapPin /> {event.location}
         </CardDescription>
       </CardContent>
-      <CardFooter className="px-3 pb-3 md:px-7 md:pb-7 flex justify-between items-center">
+      <CardFooter className="px-3 pb-2 md:px-7 md:pb-4 flex justify-between items-end">
         <p className="text-sm sm:text-base">
           {event.price === 'Free' ? `${event.price}` : `£ ${event.price}`}
         </p>
         <Button className="w-24 sm:w-32" onClick={handleSelectedEvent}>
-          Buy Now
+          See More
         </Button>
       </CardFooter>
     </Card>
