@@ -7,6 +7,9 @@ import PageNotFound from './pages/PagNotFound';
 import EventPage from './pages/Event';
 import FindEventsPage from './pages/FindEvents';
 import ContactPage from './pages/Contact';
+import AboutPage from './pages/About';
+import TermsPage from './pages/Terms';
+import PrivacyPage from './pages/Privacy';
 
 import ScrollToTop from './components/ScrollToTop';
 import MenuNavBar from './components/MenuNavBar';
@@ -25,6 +28,9 @@ const AppRoutes = () => {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/events/find" element={<FindEventsPage />} />
         <Route path="/contact" element={<ContactPage />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/terms" element={<TermsPage />} />
+        <Route path="/privacy" element={<PrivacyPage />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
 
