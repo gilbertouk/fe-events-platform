@@ -5,6 +5,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import PageNotFound from './pages/PagNotFound';
 import EventPage from './pages/EventPage';
+import CategoryPage from './pages/CategoryPage';
 
 import ScrollToTop from './components/ScrollToTop';
 import MenuNavBar from './components/MenuNavBar';
@@ -21,6 +22,7 @@ const AppRoutes = () => {
         <Route path="/event/:id" element={<EventPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/events/category" element={<CategoryPage />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
 
