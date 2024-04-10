@@ -31,7 +31,7 @@ const MenuNavBar = () => {
       <div className="max-w-7xl mx-auto px-4 flex justify-between items-center">
         <h1 className="text-3xl font-bold">
           <Link to={'/'} className="hover:none" href="#">
-            EVENTS
+            EVENTS PLATFORM
           </Link>
         </h1>
         <div className="flex items-center">
