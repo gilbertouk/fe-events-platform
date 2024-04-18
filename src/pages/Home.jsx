@@ -1,18 +1,57 @@
-import CarouselCategory from '@/components/CarouselCategory';
-import EventCard from '@/components/EventCard';
-import SeMore from '@/components/SeMore';
-import SearchBar from '@/components/SearchBar';
+import { useEffect, useState } from "react";
 
-import { eventsExamples, trendingEventsExamples } from '@/mockData/events';
+import { api } from "../services/api";
+
+import CarouselCategory from "@/components/CarouselCategory";
+import EventCard from "@/components/EventCard";
+import SeMore from "@/components/SeMore";
+import SearchBar from "@/components/SearchBar";
+import Loading from "@/components/Loading";
+import Error from "@/components/Error";
 
 const HomePage = () => {
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [events, setEvents] = useState([]);
+  const [trendingEvents, setTrendingEvents] = useState([]);
+
+  useEffect(() => {
+    setIsLoading(true);
+    api
+      .get("/events?page=1&limit=9")
+      .then((response) => {
+        setEvents(response.data.body.events);
+      })
+      .catch((error) => {
+        setError(error);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, []);
+
+  useEffect(() => {
+    setIsLoading(true);
+    api
+      .get("/events/trending")
+      .then((response) => {
+        setTrendingEvents(response.data.body);
+      })
+      .catch((error) => {
+        setError(error);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, []);
+
   return (
-    <main>
+    <main className="min-h-screen">
       <section
         className="min-h-80"
         style={{
           background:
-            'linear-gradient(to bottom, #000000, #1b1919, #2f2c2a, #43413d, #555751)',
+            "linear-gradient(to bottom, #000000, #1b1919, #2f2c2a, #43413d, #555751)",
         }}
       >
         <div className="flex flex-col gap-2 lg:gap-8 py-5 text-white font-reddit font-bold tracking-widest m-auto">
@@ -27,39 +66,45 @@ const HomePage = () => {
           <SearchBar />
         </div>
       </section>
-      <section className="bg-gray-100">
-        <div className="max-w-screen-xl w-auto mx-auto p-4">
-          <h2 className="font-roboto font-bold text-xl sm:text-4xl lg:text-7xl text-center mb-8 text-black">
-            Upcoming Event
-          </h2>
-          <div className="flex flex-wrap gap-6 justify-center">
-            {eventsExamples.map((event) => {
-              return <EventCard key={event.id} event={event} />;
-            })}
-          </div>
-          <SeMore />
-        </div>
-      </section>
-      <section className="w-auto mx-auto p-4 bg-black">
-        <h2 className="font-roboto font-bold text-xl sm:text-4xl lg:text-7xl text-center mb-8 text-white">
-          Browser By Category
-        </h2>
-        <div>
-          <CarouselCategory />
-        </div>
-      </section>
-      <section className="bg-gray-100 pb-6">
-        <div className="max-w-screen-xl w-auto mx-auto p-4">
-          <h2 className="font-roboto font-bold text-xl sm:text-4xl lg:text-7xl text-center mb-8 text-black">
-            Trending Events
-          </h2>
-          <div className="flex flex-wrap gap-6 justify-center">
-            {trendingEventsExamples.map((event, i) => {
-              return <EventCard key={i} event={event} />;
-            })}
-          </div>
-        </div>
-      </section>
+      {isLoading && <Loading />}
+      {error && <Error />}
+      {!isLoading && !error && (
+        <>
+          <section className="bg-gray-100">
+            <div className="max-w-screen-xl w-auto mx-auto p-4">
+              <h2 className="font-roboto font-bold text-xl sm:text-4xl lg:text-7xl text-center mb-8 text-black">
+                Upcoming Event
+              </h2>
+              <div className="flex flex-wrap gap-6 justify-center">
+                {events.map((event) => {
+                  return <EventCard key={event.id} event={event} />;
+                })}
+              </div>
+              <SeMore />
+            </div>
+          </section>
+          <section className="w-auto mx-auto p-4 bg-black">
+            <h2 className="font-roboto font-bold text-xl sm:text-4xl lg:text-7xl text-center mb-8 text-white">
+              Browser By Category
+            </h2>
+            <div>
+              <CarouselCategory />
+            </div>
+          </section>
+          <section className="bg-gray-100 pb-6">
+            <div className="max-w-screen-xl w-auto mx-auto p-4">
+              <h2 className="font-roboto font-bold text-xl sm:text-4xl lg:text-7xl text-center mb-8 text-black">
+                Trending Events
+              </h2>
+              <div className="flex flex-wrap gap-6 justify-center">
+                {trendingEvents.map((event) => {
+                  return <EventCard key={event.id} event={event} />;
+                })}
+              </div>
+            </div>
+          </section>
+        </>
+      )}
     </main>
   );
 };
