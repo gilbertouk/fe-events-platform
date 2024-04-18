@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 import {
   Card,
@@ -7,10 +7,13 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import CalendarDays from '@/components/icons/CalendarDays';
-import MapPin from '@/components/icons/MapPin';
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import CalendarDays from "@/components/icons/CalendarDays";
+import MapPin from "@/components/icons/MapPin";
+import Icon from "./icons/Icon";
+
+import moment from "moment";
 
 const EventCard = ({ event }) => {
   const navigate = useNavigate();
@@ -19,6 +22,8 @@ const EventCard = ({ event }) => {
     e.preventDefault();
     navigate(`/event/${event.id}`);
   };
+
+  const icon = event?.category?.icon;
 
   return (
     <Card className="w-[380px] h-auto shadow-xl shadow-gray-300">
@@ -30,20 +35,20 @@ const EventCard = ({ event }) => {
           {event.name}
         </CardTitle>
         <CardDescription className="flex gap-3 text-xs sm:text-sm justify-start items-center mb-4">
-          <CalendarDays />
-          {event.category}
+          {icon && <Icon name={icon} size={24} />}
+          {event?.category?.name}
         </CardDescription>
         <CardDescription className="flex gap-3 text-xs sm:text-sm justify-start items-center mb-4">
           <CalendarDays />
-          {event.date}
+          {moment.utc(event.dateStart).format("ddd, DD MMM YYYY - H:mm")}
         </CardDescription>
         <CardDescription className="flex gap-3 text-xs sm:text-sm justify-start items-center">
-          <MapPin /> {event.location}
+          <MapPin /> {event.city}
         </CardDescription>
       </CardContent>
       <CardFooter className="px-3 pb-2 md:px-7 md:pb-4 flex justify-between items-end">
         <p className="text-sm sm:text-base">
-          {event.price === 'Free' ? `${event.price}` : `£ ${event.price}`}
+          {event.price === "Free" ? `${event.price}` : `£ ${event.price}`}
         </p>
         <Button className="w-24 sm:w-32" onClick={handleSelectedEvent}>
           See More
