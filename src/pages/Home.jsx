@@ -4,7 +4,7 @@ import { api } from "../services/api";
 
 import CarouselCategory from "@/components/CarouselCategory";
 import EventCard from "@/components/EventCard";
-import SeMore from "@/components/SeMore";
+import SeeMore from "@/components/SeeMore";
 import SearchBar from "@/components/SearchBar";
 import Loading from "@/components/Loading";
 import Error from "@/components/Error";
@@ -12,15 +12,19 @@ import Error from "@/components/Error";
 const HomePage = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [events, setEvents] = useState([]);
   const [trendingEvents, setTrendingEvents] = useState([]);
+  const [totalEvents, setTotalEvents] = useState(0);
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
     setIsLoading(true);
     api
-      .get("/events?page=1&limit=9")
+      .get("/events?page=1&limit=3")
       .then((response) => {
         setEvents(response.data.body.events);
+        setTotalEvents(response.data.body._count);
       })
       .catch((error) => {
         setError(error);
@@ -44,6 +48,26 @@ const HomePage = () => {
         setIsLoading(false);
       });
   }, []);
+
+  const handleSeeMore = (e) => {
+    e.preventDefault();
+    api
+      .get(`/events?page=${page + 1}&limit=3`)
+      .then((response) => {
+        setEvents((previousEvents) => [
+          ...previousEvents,
+          ...response.data.body.events,
+        ]);
+        setTotalEvents(response.data.body._count);
+      })
+      .catch((error) => {
+        setError(error);
+      })
+      .finally(() => {
+        setPage(page + 1);
+        setIsLoadingMore(false);
+      });
+  };
 
   return (
     <main className="min-h-screen">
@@ -80,7 +104,13 @@ const HomePage = () => {
                   return <EventCard key={event.id} event={event} />;
                 })}
               </div>
-              <SeMore />
+              {events.length < totalEvents && (
+                <SeeMore
+                  handleSeeMore={handleSeeMore}
+                  isLoadingMore={isLoadingMore}
+                  setIsLoadingMore={setIsLoadingMore}
+                />
+              )}
             </div>
           </section>
           <section className="w-auto mx-auto p-4 bg-black">
