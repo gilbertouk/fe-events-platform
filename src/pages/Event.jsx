@@ -1,12 +1,12 @@
-import { useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 
-import { AspectRatio } from '@/components/ui/aspect-ratio';
+import { AspectRatio } from "@/components/ui/aspect-ratio";
 
-import { eventsExamples } from '@/mockData/events';
-import CalendarDays from '@/components/icons/CalendarDays';
-import MapPin from '@/components/icons/MapPin';
-import { Button } from '@/components/ui/button';
+import { eventsExamples } from "@/mockData/events";
+import CalendarDays from "@/components/icons/CalendarDays";
+import MapPin from "@/components/icons/MapPin";
+import { Button } from "@/components/ui/button";
 
 const EventPage = () => {
   const { id } = useParams();
@@ -50,13 +50,13 @@ const EventPage = () => {
             <h2 className="font-roboto font-bold text-base sm:text-xl lg:text-2xl">
               Event Description
             </h2>
-            <p className="text-justify text-sm mt-3 sm:text-base sm:mt-6 text-slate-500">
+            <p className="text-justify text-sm mt-3 sm:text-base sm:mt-6 text-gray-500">
               {event.description}
             </p>
             <h2 className="font-roboto font-bold text-base sm:text-xl lg:text-2xl mt-3 sm:mt-6">
               Event Information
             </h2>
-            <p className="text-justify text-sm mt-3 sm:text-base sm:mt-6 text-slate-500">
+            <p className="text-justify text-sm mt-3 sm:text-base sm:mt-6 text-gray-500">
               {event.information}
             </p>
           </div>
@@ -64,15 +64,15 @@ const EventPage = () => {
             <h2 className="font-roboto font-bold text-base sm:text-xl lg:text-2xl">
               Event Detail
             </h2>
-            <p className="text-justify text-sm mt-3 sm:text-base sm:mt-6 text-slate-500 flex gap-3 justify-start items-center">
+            <p className="text-justify text-sm mt-3 sm:text-base sm:mt-6 text-gray-500 flex gap-3 justify-start items-center">
               <CalendarDays /> {event.date}
             </p>
-            <p className="text-justify text-sm mt-3 sm:text-base sm:mt-6 text-slate-500 flex gap-3 justify-start items-center">
+            <p className="text-justify text-sm mt-3 sm:text-base sm:mt-6 text-gray-500 flex gap-3 justify-start items-center">
               <MapPin /> {event.location}
             </p>
-            <p className="text-justify text-sm mt-3 sm:text-base sm:mt-6 text-slate-500 flex gap-3 justify-start items-center">
+            <p className="text-justify text-sm mt-3 sm:text-base sm:mt-6 text-gray-500 flex gap-3 justify-start items-center">
               &nbsp;
-              {event.price === 'Free' ? `${event.price}` : `£ ${event.price}`}
+              {event.price === "Free" ? `${event.price}` : `£ ${event.price}`}
             </p>
             <hr className="my-4" />
             <div className="flex flex-row justify-between items-center mt-3 gap-1 lg:gap-4">
