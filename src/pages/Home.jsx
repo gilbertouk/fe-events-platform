@@ -17,22 +17,29 @@ const HomePage = () => {
   const [trendingEvents, setTrendingEvents] = useState([]);
   const [totalEvents, setTotalEvents] = useState(0);
   const [page, setPage] = useState(1);
+  const [eventName, setEventName] = useState("");
+  const [city, setCity] = useState("");
+  const [category, setCategory] = useState("");
 
   useEffect(() => {
-    setIsLoading(true);
-    api
-      .get("/events?page=1&limit=3")
-      .then((response) => {
-        setEvents(response.data.body.events);
-        setTotalEvents(response.data.body._count);
-      })
-      .catch((error) => {
-        setError(error);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  }, []);
+    if (eventName === "" && city === "" && category === "") {
+      setIsLoading(true);
+      api
+        .get(
+          `/events?page=1&limit=9&name=${eventName}&city=${city}&category=${category}`,
+        )
+        .then((response) => {
+          setEvents(response.data.body.events);
+          setTotalEvents(response.data.body._count);
+        })
+        .catch((error) => {
+          setError(error);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    }
+  }, [eventName, city, category]);
 
   useEffect(() => {
     setIsLoading(true);
@@ -52,7 +59,11 @@ const HomePage = () => {
   const handleSeeMore = (e) => {
     e.preventDefault();
     api
-      .get(`/events?page=${page + 1}&limit=3`)
+      .get(
+        `/events?page=${
+          page + 1
+        }&limit=9&name=${eventName}&city=${city}&category=${category}`,
+      )
       .then((response) => {
         setEvents((previousEvents) => [
           ...previousEvents,
@@ -66,6 +77,24 @@ const HomePage = () => {
       .finally(() => {
         setPage(page + 1);
         setIsLoadingMore(false);
+      });
+  };
+
+  const handleSearch = () => {
+    setIsLoading(true);
+    api
+      .get(
+        `/events?page=${page}&limit=9&name=${eventName}&city=${city}&category=${category}`,
+      )
+      .then((response) => {
+        setEvents(response.data.body.events);
+        setTotalEvents(response.data.body._count);
+      })
+      .catch((error) => {
+        setError(error);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   };
 
@@ -87,7 +116,16 @@ const HomePage = () => {
               Discover Amazing Upcoming Events
             </p>
           </div>
-          <SearchBar />
+          <SearchBar
+            handleSearch={handleSearch}
+            eventName={eventName}
+            setEventName={setEventName}
+            city={city}
+            setCity={setCity}
+            category={category}
+            setCategory={setCategory}
+            setPage={setPage}
+          />
         </div>
       </section>
       {isLoading && <Loading />}
