@@ -1,41 +1,41 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from "react-router-dom";
 
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-import auth from '../config/firebase';
-import useAuthContext from '../hooks/useAuthContext';
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import auth from "../config/firebase";
+import useAuthContext from "../hooks/useAuthContext";
 
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 
-import { Label } from '@/components/ui/label';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 const schema = z
   .object({
     firstName: z
       .string()
-      .min(2, { message: 'Must be 2 or more characters long' }),
+      .min(2, { message: "Must be 2 or more characters long" }),
     lastName: z
       .string()
-      .min(2, { message: 'Must be 2 or more characters long' }),
-    email: z.string().email({ message: 'Invalid email address' }),
+      .min(2, { message: "Must be 2 or more characters long" }),
+    email: z.string().email({ message: "Invalid email address" }),
     password: z
       .string()
-      .min(8, { message: 'Must be 8 or more characters long' }),
+      .min(8, { message: "Must be 8 or more characters long" }),
     confirm: z
       .string()
-      .min(8, { message: 'Must be 8 or more characters long' }),
+      .min(8, { message: "Must be 8 or more characters long" }),
     terms: z.boolean().default(false),
   })
   .refine((data) => data.password === data.confirm, {
     message: "Passwords don't match",
-    path: ['confirm'],
+    path: ["confirm"],
   })
   .refine((data) => data.terms === true, {
-    message: 'You must agree to the terms',
-    path: ['terms'],
+    message: "You must agree to the terms",
+    path: ["terms"],
   });
 
 const RegisterPage = () => {
@@ -58,9 +58,9 @@ const RegisterPage = () => {
         data.password,
       );
 
-      localStorage.setItem('token', user.accessToken);
+      localStorage.setItem("token", user.accessToken);
       setCurrentUser(user);
-      navigate('/');
+      navigate("/");
     } catch (error) {
       const errorCode = error.code;
       const errorMessage = error.message;
@@ -75,7 +75,7 @@ const RegisterPage = () => {
           <h1 className="font-roboto text-lg sm:text-2xl lg:text-4xl">
             Sign Up
           </h1>
-          <p className="text-slate-500 text-sm sm:text-base">
+          <p className="text-gray-500 text-sm sm:text-base">
             Enter your information to create an account
           </p>
         </div>
@@ -84,7 +84,7 @@ const RegisterPage = () => {
             <div className="space-y-2">
               <Label htmlFor="first-name">First name</Label>
               <Input
-                {...register('firstName', { required: true })}
+                {...register("firstName", { required: true })}
                 id="first-name"
                 placeholder="John"
                 required
@@ -96,7 +96,7 @@ const RegisterPage = () => {
             <div className="space-y-2">
               <Label htmlFor="last-name">Last name</Label>
               <Input
-                {...register('lastName', { required: true })}
+                {...register("lastName", { required: true })}
                 id="last-name"
                 placeholder="Wick"
                 required
@@ -107,7 +107,7 @@ const RegisterPage = () => {
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>
             <Input
-              {...register('email', { required: true })}
+              {...register("email", { required: true })}
               id="email"
               placeholder="john@example.com"
               required
@@ -118,7 +118,7 @@ const RegisterPage = () => {
           <div className="space-y-2">
             <Label htmlFor="password">Password</Label>
             <Input
-              {...register('password', { required: true })}
+              {...register("password", { required: true })}
               id="password"
               required
               type="password"
@@ -128,7 +128,7 @@ const RegisterPage = () => {
           <div className="space-y-2">
             <Label htmlFor="confirm-password">Confirm password</Label>
             <Input
-              {...register('confirm', { required: true })}
+              {...register("confirm", { required: true })}
               id="confirm-password"
               required
               type="password"
@@ -138,7 +138,7 @@ const RegisterPage = () => {
           <div className="space-y-2">
             <div className="flex items-center">
               <Input
-                {...register('terms', { required: true })}
+                {...register("terms", { required: true })}
                 type="checkbox"
                 className="peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
               />

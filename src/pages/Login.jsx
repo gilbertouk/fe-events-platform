@@ -1,33 +1,33 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 import {
   signInWithEmailAndPassword,
   signInWithPopup,
   GoogleAuthProvider,
-} from 'firebase/auth';
-import auth from '../config/firebase';
-import useAuthContext from '../hooks/useAuthContext';
+} from "firebase/auth";
+import auth from "../config/firebase";
+import useAuthContext from "../hooks/useAuthContext";
 
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 
-import { Label } from '@/components/ui/label';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { AlertCircle } from 'lucide-react';
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { AlertCircle } from "lucide-react";
 
 const schema = z.object({
-  email: z.string().email({ message: 'Invalid email address' }),
-  password: z.string().min(8, { message: 'Must be 8 or more characters long' }),
+  email: z.string().email({ message: "Invalid email address" }),
+  password: z.string().min(8, { message: "Must be 8 or more characters long" }),
 });
 
 const LoginPage = () => {
   auth.useDeviceLanguage();
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
   const { setCurrentUser } = useAuthContext();
 
@@ -40,7 +40,7 @@ const LoginPage = () => {
   });
 
   const handleLogin = async (data) => {
-    setErrorMessage('');
+    setErrorMessage("");
     try {
       const result = await signInWithEmailAndPassword(
         auth,
@@ -48,35 +48,35 @@ const LoginPage = () => {
         data.password,
       );
       const user = result.user;
-      localStorage.setItem('token', user.accessToken);
+      localStorage.setItem("token", user.accessToken);
       setCurrentUser(user);
-      navigate('/');
+      navigate("/");
     } catch (error) {
       const errorCode = error.code;
       console.log(errorCode);
-      if (errorCode === 'auth/invalid-credential') {
-        setErrorMessage('Invalid email or password');
+      if (errorCode === "auth/invalid-credential") {
+        setErrorMessage("Invalid email or password");
         return;
       }
 
-      if (errorCode === 'auth/user-disabled') {
-        setErrorMessage('Your account has been disabled');
+      if (errorCode === "auth/user-disabled") {
+        setErrorMessage("Your account has been disabled");
         return;
       }
 
-      setErrorMessage('Invalid email or password');
+      setErrorMessage("Invalid email or password");
     }
   };
 
   const handleGoogleLogin = async () => {
-    setErrorMessage('');
+    setErrorMessage("");
     try {
       const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
-      localStorage.setItem('token', user.accessToken);
+      localStorage.setItem("token", user.accessToken);
       setCurrentUser(user);
-      navigate('/');
+      navigate("/");
     } catch (error) {
       const errorCode = error.code;
       const errorMessage = error.message;
@@ -95,7 +95,7 @@ const LoginPage = () => {
             <h1 className="font-roboto text-lg sm:text-2xl lg:text-4xl font-bold">
               Login
             </h1>
-            <p className="text-slate-500 text-sm sm:text-base">
+            <p className="text-gray-500 text-sm sm:text-base">
               Enter your email below to login to your account
             </p>
           </div>
@@ -103,7 +103,7 @@ const LoginPage = () => {
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input
-                {...register('email', { required: true })}
+                {...register("email", { required: true })}
                 id="email"
                 placeholder="john@example.com"
                 required
@@ -114,7 +114,7 @@ const LoginPage = () => {
             <div className="space-y-2">
               <Label htmlFor="password">Password</Label>
               <Input
-                {...register('password', { required: true })}
+                {...register("password", { required: true })}
                 id="password"
                 required
                 type="password"

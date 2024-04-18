@@ -7,6 +7,7 @@ import EventCard from "@/components/EventCard";
 import Loading from "@/components/Loading";
 import SeeMore from "@/components/SeeMore";
 import Error from "@/components/Error";
+import ResourceNotAvailable from "@/components/ResourceNotAvailable";
 
 const FindEventsPage = () => {
   const [searchParams] = useSearchParams();
@@ -25,6 +26,7 @@ const FindEventsPage = () => {
       api
         .get(`/events?page=1&limit=9&${filter}=${value}`)
         .then((response) => {
+          console.log(response.data.body.events);
           setEvents(response.data.body.events);
           setTotalEvents(response.data.body._count);
         })
@@ -58,11 +60,12 @@ const FindEventsPage = () => {
   };
 
   return (
-    <main className="min-h-screen">
+    <main className="min-h-screen bg-gray-100">
       {isLoading && <Loading />}
       {error && <Error />}
-      {!isLoading && !error && (
-        <section className="bg-gray-100 p-5">
+      {events.length === 0 && !isLoading && !error && <ResourceNotAvailable />}
+      {events.length > 0 && !isLoading && !error && (
+        <section className="p-5">
           <div className="max-w-screen-xl w-auto mx-auto p-4">
             <h2 className="font-roboto font-bold text-xl sm:text-4xl lg:text-7xl text-center mb-8 text-black">
               {`Upcoming ${value} Events`}

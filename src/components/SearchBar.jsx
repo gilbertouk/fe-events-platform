@@ -31,9 +31,9 @@ const SearchBar = ({
     <div className="bg-white rounded w-fit sm:w-[80%] md:w-[60%] lg:w-auto p-4 m-auto">
       <div className="flex flex-col gap-2 lg:gap-1 lg:flex-row bg-white">
         <div className="flex justify-center items-center">
-          <SearchIcon className="text-slate-500" />
+          <SearchIcon className="text-gray-500" />
           <Input
-            className="rounded-none w-full md:w-[60%] lg:w-[180px] border-transparent focus:outline-none focus:border-transparent focus:ring-0 focus-visible:ring-0 placeholder:text-slate-500 text-slate-500"
+            className="rounded-none w-full md:w-[60%] lg:w-[180px] border-transparent focus:outline-none focus:border-transparent focus:ring-0 focus-visible:ring-0 placeholder:text-gray-500 text-gray-500"
             placeholder="Search Events"
             type="search"
             value={eventName}
@@ -42,9 +42,9 @@ const SearchBar = ({
         </div>
         <div className="min-h-[16px] hidden border lg:block lg:mx-2"></div>
         <div className="flex justify-center items-center">
-          <MapLocation className="text-slate-500" />
+          <MapLocation className="text-gray-500" />
           <Select value={city} onValueChange={setCity}>
-            <SelectTrigger className="rounded-none w-full md:w-[60%] lg:w-[180px] border-transparent focus:outline-none focus:border-transparent focus:ring-0 focus-visible:ring-0 text-slate-500">
+            <SelectTrigger className="rounded-none w-full md:w-[60%] lg:w-[180px] border-transparent focus:outline-none focus:border-transparent focus:ring-0 focus-visible:ring-0 text-gray-500">
               <SelectValue placeholder="Location" />
             </SelectTrigger>
             <SelectContent className="mt-1">
@@ -60,9 +60,9 @@ const SearchBar = ({
         </div>
         <div className="min-h-[16px] hidden border lg:block lg:mx-2"></div>
         <div className="flex justify-center items-center">
-          <Category className="text-slate-500" />
+          <Category className="text-gray-500" />
           <Select value={category} onValueChange={setCategory}>
-            <SelectTrigger className="rounded-none w-full md:w-[60%] lg:w-[180px] border-transparent focus:outline-none focus:border-transparent focus:ring-0 focus-visible:ring-0 text-slate-500">
+            <SelectTrigger className="rounded-none w-full md:w-[60%] lg:w-[180px] border-transparent focus:outline-none focus:border-transparent focus:ring-0 focus-visible:ring-0 text-gray-500">
               <SelectValue placeholder="Category" />
             </SelectTrigger>
             <SelectContent className="mt-1">

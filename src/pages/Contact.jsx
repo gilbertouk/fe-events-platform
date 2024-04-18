@@ -1,7 +1,7 @@
-import { Label } from '@/components/ui/label';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Button } from '@/components/ui/button';
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
 
 const ContactPage = () => {
   return (
@@ -12,7 +12,7 @@ const ContactPage = () => {
             <h1 className="font-roboto text-lg sm:text-2xl lg:text-4xl font-bold">
               Contact Us
             </h1>
-            <p className="text-slate-500 text-sm sm:text-base">
+            <p className="text-gray-500 text-sm sm:text-base">
               Fill out the form below and we&apos;ll get back to you as soon as
               possible.
             </p>
