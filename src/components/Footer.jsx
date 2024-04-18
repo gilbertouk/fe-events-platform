@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom';
-import Icon from './icons/Icon';
+import { Link } from "react-router-dom";
+import Icon from "./icons/Icon";
 
 const Footer = () => {
   const getYear = () => {
