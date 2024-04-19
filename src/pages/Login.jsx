@@ -9,6 +9,8 @@ import {
 import auth from "../config/firebase";
 import useAuthContext from "../hooks/useAuthContext";
 
+import { api } from "../services/api";
+
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -48,7 +50,13 @@ const LoginPage = () => {
         data.password,
       );
       const user = result.user;
+
+      const response = await api.get(`/user/${data.email}`);
+      const userData = response?.data?.body;
+
       localStorage.setItem("token", user.accessToken);
+      localStorage.setItem("user", userData);
+
       setCurrentUser(user);
       navigate("/");
     } catch (error) {
@@ -70,14 +78,44 @@ const LoginPage = () => {
 
   const handleGoogleLogin = async () => {
     setErrorMessage("");
+    let loggedUser;
     try {
       const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
+      loggedUser = user;
       localStorage.setItem("token", user.accessToken);
       setCurrentUser(user);
+
+      const response = await api.get(`/user/${user.email}`);
+      const userData = response?.data?.body;
+
+      localStorage.setItem("user", userData);
       navigate("/");
     } catch (error) {
+      if (
+        error?.response?.status === 404 &&
+        error?.response?.data?.body?.error === "Resource not found"
+      ) {
+        console.log("here");
+        const arrayName = loggedUser.displayName.split(" ");
+        const userData = {
+          email: loggedUser.email,
+          firstName: arrayName[0],
+          surname: arrayName[arrayName.length - 1],
+          role: "USER",
+        };
+        api
+          .post("/user/", userData)
+          .then((response) => {
+            console.log(response.data?.body);
+            const user = response.data?.body;
+            localStorage.setItem("user", user);
+            navigate("/");
+          })
+          .catch((error) => console.log(error));
+      }
+
       const errorCode = error.code;
       const errorMessage = error.message;
       const email = error.customData.email;
