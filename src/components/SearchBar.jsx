@@ -48,10 +48,10 @@ const SearchBar = ({
               <SelectValue placeholder="Location" />
             </SelectTrigger>
             <SelectContent className="mt-1">
-              {eventsCities.map((item) => {
+              {eventsCities.map((city) => {
                 return (
-                  <SelectItem key={item.city} value={item.city}>
-                    {item.city}
+                  <SelectItem key={city} value={city}>
+                    {city}
                   </SelectItem>
                 );
               })}
