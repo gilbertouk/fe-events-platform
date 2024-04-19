@@ -55,7 +55,7 @@ const LoginPage = () => {
       const userData = response?.data?.body;
 
       localStorage.setItem("token", user.accessToken);
-      localStorage.setItem("user", userData);
+      localStorage.setItem("user", JSON.stringify(userData));
 
       setCurrentUser(user);
       navigate("/");
@@ -90,7 +90,7 @@ const LoginPage = () => {
       const response = await api.get(`/user/${user.email}`);
       const userData = response?.data?.body;
 
-      localStorage.setItem("user", userData);
+      localStorage.setItem("user", JSON.stringify(userData));
       navigate("/");
     } catch (error) {
       if (
@@ -110,7 +110,7 @@ const LoginPage = () => {
           .then((response) => {
             console.log(response.data?.body);
             const user = response.data?.body;
-            localStorage.setItem("user", user);
+            localStorage.setItem("user", JSON.stringify(user));
             navigate("/");
           })
           .catch((error) => console.log(error));

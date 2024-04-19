@@ -1,19 +1,20 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import HomePage from './pages/Home';
-import LoginPage from './pages/Login';
-import RegisterPage from './pages/Register';
-import PageNotFound from './pages/PagNotFound';
-import EventPage from './pages/Event';
-import FindEventsPage from './pages/FindEvents';
-import ContactPage from './pages/Contact';
-import AboutPage from './pages/About';
-import TermsPage from './pages/Terms';
-import PrivacyPage from './pages/Privacy';
+import HomePage from "./pages/Home";
+import LoginPage from "./pages/Login";
+import RegisterPage from "./pages/Register";
+import PageNotFound from "./pages/PagNotFound";
+import EventPage from "./pages/Event";
+import FindEventsPage from "./pages/FindEvents";
+import ContactPage from "./pages/Contact";
+import AboutPage from "./pages/About";
+import TermsPage from "./pages/Terms";
+import PrivacyPage from "./pages/Privacy";
+import AddEvent from "./pages/AddEvent";
 
-import ScrollToTop from './components/ScrollToTop';
-import MenuNavBar from './components/MenuNavBar';
-import Footer from './components/Footer';
+import ScrollToTop from "./components/ScrollToTop";
+import MenuNavBar from "./components/MenuNavBar";
+import Footer from "./components/Footer";
 
 const AppRoutes = () => {
   return (
@@ -31,6 +32,7 @@ const AppRoutes = () => {
         <Route path="/about" element={<AboutPage />} />
         <Route path="/terms" element={<TermsPage />} />
         <Route path="/privacy" element={<PrivacyPage />} />
+        <Route path="/event/add" element={<AddEvent />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
 
