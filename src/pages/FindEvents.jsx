@@ -26,7 +26,6 @@ const FindEventsPage = () => {
       api
         .get(`/events?page=1&limit=9&${filter}=${value}`)
         .then((response) => {
-          console.log(response.data.body.events);
           setEvents(response.data.body.events);
           setTotalEvents(response.data.body._count);
         })
