@@ -132,8 +132,8 @@ const HomePage = () => {
       {error && <Error />}
       {!isLoading && !error && (
         <>
-          <section className="bg-gray-100">
-            <div className="max-w-screen-xl w-auto mx-auto p-4">
+          <section className="bg-gray-100 p-8">
+            <div className="max-w-screen-xl w-auto mx-auto">
               <h2 className="font-roboto font-bold text-xl sm:text-4xl lg:text-7xl text-center mb-8 text-black">
                 Upcoming Event
               </h2>
