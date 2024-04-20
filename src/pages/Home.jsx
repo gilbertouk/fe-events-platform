@@ -26,7 +26,7 @@ const HomePage = () => {
       setIsLoading(true);
       api
         .get(
-          `/events?page=1&limit=9&name=${eventName}&city=${city}&category=${category}`,
+          `/event/all?page=1&limit=9&name=${eventName}&city=${city}&category=${category}`,
         )
         .then((response) => {
           setEvents(response.data.body.events);
@@ -44,7 +44,7 @@ const HomePage = () => {
   useEffect(() => {
     setIsLoading(true);
     api
-      .get("/events/trending")
+      .get("/event/all/trending")
       .then((response) => {
         setTrendingEvents(response.data.body);
       })
@@ -60,7 +60,7 @@ const HomePage = () => {
     e.preventDefault();
     api
       .get(
-        `/events?page=${
+        `/event/all?page=${
           page + 1
         }&limit=9&name=${eventName}&city=${city}&category=${category}`,
       )
@@ -84,7 +84,7 @@ const HomePage = () => {
     setIsLoading(true);
     api
       .get(
-        `/events?page=${page}&limit=9&name=${eventName}&city=${city}&category=${category}`,
+        `/event/all?page=${page}&limit=9&name=${eventName}&city=${city}&category=${category}`,
       )
       .then((response) => {
         setEvents(response.data.body.events);

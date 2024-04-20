@@ -11,7 +11,7 @@ const CategoriesProvider = ({ children }) => {
 
   useEffect(() => {
     api
-      .get("/categories")
+      .get("/category/all")
       .then((response) => {
         setCategories(response.data.body);
       })

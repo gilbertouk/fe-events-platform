@@ -24,7 +24,7 @@ const FindEventsPage = () => {
     if (filter && value) {
       setIsLoading(true);
       api
-        .get(`/events?page=1&limit=9&${filter}=${value}`)
+        .get(`/event/all?page=1&limit=9&${filter}=${value}`)
         .then((response) => {
           setEvents(response.data.body.events);
           setTotalEvents(response.data.body._count);
@@ -41,7 +41,7 @@ const FindEventsPage = () => {
   const handleSeeMore = (e) => {
     e.preventDefault();
     api
-      .get(`/events?page=${page + 1}&limit=9&${filter}=${value}`)
+      .get(`/event/all?page=${page + 1}&limit=9&${filter}=${value}`)
       .then((response) => {
         setEvents((previousEvents) => [
           ...previousEvents,

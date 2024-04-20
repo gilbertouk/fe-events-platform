@@ -11,7 +11,7 @@ const EventCitiesProvider = ({ children }) => {
 
   useEffect(() => {
     api
-      .get("/events/cities")
+      .get("/event/all/cities")
       .then((response) => {
         setEventsCities(response.data.body);
       })
