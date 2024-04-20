@@ -41,7 +41,13 @@ const EventPage = () => {
       <div className="max-w-screen-xl w-auto mx-auto">
         {isLoading && <Loading />}
         {!isLoading && error && <Error />}
-        {!isLoading && !error && !event && <ResourceNotAvailable />}
+        {!isLoading && !error && !event && (
+          <ResourceNotAvailable
+            title="Event Not Found"
+            text="We're sorry, but the event you are trying to access does not exist. Please double-check the link or contact support for assistance."
+            showLink={true}
+          />
+        )}
         {!isLoading && !error && event && (
           <>
             <section className="mb-3">

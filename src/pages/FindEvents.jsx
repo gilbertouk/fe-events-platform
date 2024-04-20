@@ -62,7 +62,14 @@ const FindEventsPage = () => {
     <main className="min-h-screen bg-gray-100">
       {isLoading && <Loading />}
       {error && <Error />}
-      {events.length === 0 && !isLoading && !error && <ResourceNotAvailable />}
+      {events.length === 0 && !isLoading && !error && (
+        <ResourceNotAvailable
+          title="Resource Not Available"
+          text="There are no events in the category you have selected. Please return
+          to the homepage and try another category."
+          showLink={true}
+        />
+      )}
       {events.length > 0 && !isLoading && !error && (
         <section className="p-5">
           <div className="max-w-screen-xl w-auto mx-auto p-4">
