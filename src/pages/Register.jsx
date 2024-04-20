@@ -168,7 +168,7 @@ const RegisterPage = () => {
               />
               <Label className="ml-2 text-sm leading-none" htmlFor="terms">
                 I agree to the&nbsp;
-                <Link className="underline" href="#">
+                <Link className="underline" to={"/terms"}>
                   terms and conditions
                 </Link>
               </Label>
