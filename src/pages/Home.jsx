@@ -8,6 +8,7 @@ import SeeMore from "@/components/SeeMore";
 import SearchBar from "@/components/SearchBar";
 import Loading from "@/components/Loading";
 import Error from "@/components/Error";
+import ResourceNotAvailable from "@/components/ResourceNotAvailable";
 
 const HomePage = () => {
   const [error, setError] = useState(null);
@@ -132,25 +133,35 @@ const HomePage = () => {
       {error && <Error />}
       {!isLoading && !error && (
         <>
-          <section className="bg-gray-100 p-8">
-            <div className="max-w-screen-xl w-auto mx-auto">
-              <h2 className="font-roboto font-bold text-xl sm:text-4xl lg:text-7xl text-center mb-8 text-black">
-                Upcoming Event
-              </h2>
-              <div className="flex flex-wrap gap-6 justify-center">
-                {events.map((event) => {
-                  return <EventCard key={event.id} event={event} />;
-                })}
+          {events.length === 0 && (
+            <ResourceNotAvailable
+              title="No Events Found"
+              text="We couldn't find any events that match your selected criteria. Please adjust your filters and try again, or explore our other events."
+              showLink={false}
+            />
+          )}
+          {events.length > 0 && (
+            <section className="bg-gray-100 p-8">
+              <div className="max-w-screen-xl w-auto mx-auto">
+                <h2 className="font-roboto font-bold text-xl sm:text-4xl lg:text-7xl text-center mb-8 text-black">
+                  Upcoming Event
+                </h2>
+                <div className="flex flex-wrap gap-6 justify-center">
+                  {events.map((event) => {
+                    return <EventCard key={event.id} event={event} />;
+                  })}
+                </div>
+                {events.length < totalEvents && (
+                  <SeeMore
+                    handleSeeMore={handleSeeMore}
+                    isLoadingMore={isLoadingMore}
+                    setIsLoadingMore={setIsLoadingMore}
+                  />
+                )}
               </div>
-              {events.length < totalEvents && (
-                <SeeMore
-                  handleSeeMore={handleSeeMore}
-                  isLoadingMore={isLoadingMore}
-                  setIsLoadingMore={setIsLoadingMore}
-                />
-              )}
-            </div>
-          </section>
+            </section>
+          )}
+
           <section className="w-auto mx-auto p-4 bg-black">
             <h2 className="font-roboto font-bold text-xl sm:text-4xl lg:text-7xl text-center mb-8 text-white">
               Browser By Category
