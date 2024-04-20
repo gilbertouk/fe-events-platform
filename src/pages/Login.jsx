@@ -9,7 +9,7 @@ import {
 import auth from "../config/firebase";
 import useAuthContext from "../hooks/useAuthContext";
 
-import { api } from "../services/api";
+import { api, apiPrivate } from "../services/api";
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -51,7 +51,9 @@ const LoginPage = () => {
       );
       const user = result.user;
 
-      const response = await api.get(`/user/${data.email}`);
+      const response = await apiPrivate.get(`/user/${data.email}`, {
+        headers: { Authorization: `Bearer ${user.accessToken}` },
+      });
       const userData = response?.data?.body;
 
       localStorage.setItem("token", user.accessToken);
@@ -87,7 +89,9 @@ const LoginPage = () => {
       localStorage.setItem("token", user.accessToken);
       setCurrentUser(user);
 
-      const response = await api.get(`/user/${user.email}`);
+      const response = await api.get(`/user/${user.email}`, {
+        headers: { Authorization: `Bearer ${user.accessToken}` },
+      });
       const userData = response?.data?.body;
 
       localStorage.setItem("user", JSON.stringify(userData));
@@ -97,7 +101,6 @@ const LoginPage = () => {
         error?.response?.status === 404 &&
         error?.response?.data?.body?.error === "Resource not found"
       ) {
-        console.log("here");
         const arrayName = loggedUser.displayName.split(" ");
         const userData = {
           email: loggedUser.email,
@@ -108,7 +111,6 @@ const LoginPage = () => {
         api
           .post("/user/", userData)
           .then((response) => {
-            console.log(response.data?.body);
             const user = response.data?.body;
             localStorage.setItem("user", JSON.stringify(user));
             navigate("/");

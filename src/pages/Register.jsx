@@ -1,8 +1,11 @@
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import auth from "../config/firebase";
 import useAuthContext from "../hooks/useAuthContext";
+
+import { api } from "../services/api";
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -11,6 +14,8 @@ import { z } from "zod";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { AlertCircle } from "lucide-react";
 
 const schema = z
   .object({
@@ -41,6 +46,7 @@ const schema = z
 const RegisterPage = () => {
   const navigate = useNavigate();
   const { setCurrentUser } = useAuthContext();
+  const [errorMessage, setErrorMessage] = useState("");
 
   const {
     register,
@@ -51,6 +57,7 @@ const RegisterPage = () => {
   });
 
   const handleRegister = async (data) => {
+    setErrorMessage("");
     try {
       const { user } = await createUserWithEmailAndPassword(
         auth,
@@ -58,6 +65,17 @@ const RegisterPage = () => {
         data.password,
       );
 
+      const userData = {
+        firstName: data.firstName,
+        surname: data.lastName,
+        email: data.email,
+        role: "USER",
+      };
+
+      const response = await api.post("/user/", userData);
+      const userCreated = response.data?.body;
+
+      localStorage.setItem("user", JSON.stringify(userCreated));
       localStorage.setItem("token", user.accessToken);
       setCurrentUser(user);
       navigate("/");
@@ -65,6 +83,12 @@ const RegisterPage = () => {
       const errorCode = error.code;
       const errorMessage = error.message;
       console.log(errorCode, errorMessage);
+      if (errorCode === "auth/email-already-in-use") {
+        setErrorMessage("Email already in use, go to login page");
+        return;
+      }
+
+      setErrorMessage("Something went wrong, try again later");
     }
   };
 
@@ -155,6 +179,14 @@ const RegisterPage = () => {
             Sign Up
           </Button>
         </form>
+        {errorMessage && (
+          <Alert variant="destructive">
+            <AlertDescription className="flex gap-2 items-center">
+              <AlertCircle className="h-4 w-4" />
+              {errorMessage}
+            </AlertDescription>
+          </Alert>
+        )}
       </main>
     </div>
   );
