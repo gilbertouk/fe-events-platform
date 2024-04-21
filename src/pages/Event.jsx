@@ -6,10 +6,10 @@ import { api } from "../services/api";
 
 import moment from "moment";
 
+import { Toaster, toast } from "sonner";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import CalendarDays from "@/components/icons/CalendarDays";
 import MapPin from "@/components/icons/MapPin";
-
 import { Button } from "@/components/ui/button";
 import Loading from "@/components/Loading";
 import Error from "@/components/Error";
@@ -57,8 +57,9 @@ const EventPage = () => {
         dateTime: endDate,
       },
     };
+
     try {
-      const result = await axios.post(
+      await axios.post(
         "https://www.googleapis.com/calendar/v3/calendars/primary/events",
         eventModel,
         {
@@ -68,15 +69,24 @@ const EventPage = () => {
           },
         },
       );
-
-      console.log(result);
+      handleToast(true);
     } catch (error) {
-      console.log(error);
+      handleToast(false);
+    }
+  };
+
+  const handleToast = (success) => {
+    if (success) {
+      toast.success("Event successfully added to your Google Calendar!");
+    } else {
+      toast.error("Failed to add event to calendar");
     }
   };
 
   return (
     <main className="bg-gray-100 min-h-screen">
+      <Toaster closeButton richColors />
+
       <div className="max-w-screen-xl w-auto mx-auto">
         {isLoading && <Loading />}
         {!isLoading && error && <Error />}
