@@ -28,7 +28,7 @@ const EventCard = ({ event }) => {
   return (
     <Card className="w-[380px] h-auto shadow-xl shadow-gray-300">
       <CardHeader className="p-0 object-cover">
-        <img alt="Event image" src="/event.png" className="rounded-t" />
+        <img alt="Event image" src={event?.logoUrl} className="rounded-t" />
       </CardHeader>
       <CardContent className="px-3 pt-3 md:px-7 md:pt-7 min-h-60">
         <CardTitle className="font-roboto font-bold text-sm sm:text-lg lg:text-xl text-start mb-4">
