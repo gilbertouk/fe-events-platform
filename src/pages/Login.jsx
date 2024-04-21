@@ -83,8 +83,16 @@ const LoginPage = () => {
     let loggedUser;
     try {
       const provider = new GoogleAuthProvider();
+      provider.addScope("https://www.googleapis.com/auth/calendar.events");
       const result = await signInWithPopup(auth, provider);
-      const user = result.user;
+      let user;
+      if (result) {
+        user = result.user;
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const tokenGoogle = credential.accessToken;
+        localStorage.setItem("tokenGoogle", tokenGoogle);
+      }
+
       loggedUser = user;
       localStorage.setItem("token", user.accessToken);
       setCurrentUser(user);

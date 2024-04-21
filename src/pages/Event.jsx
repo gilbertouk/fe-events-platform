@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
+import axios from "axios";
 import { api } from "../services/api";
 
 import moment from "moment";
@@ -8,16 +9,19 @@ import moment from "moment";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import CalendarDays from "@/components/icons/CalendarDays";
 import MapPin from "@/components/icons/MapPin";
+
 import { Button } from "@/components/ui/button";
 import Loading from "@/components/Loading";
 import Error from "@/components/Error";
 import ResourceNotAvailable from "@/components/ResourceNotAvailable";
+import Alert from "@/components/Alert";
 
 const EventPage = () => {
   const { id } = useParams();
   const [event, setEvent] = useState(null);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const tokenGoogle = localStorage.getItem("tokenGoogle");
 
   useEffect(() => {
     if (id) {
@@ -35,6 +39,41 @@ const EventPage = () => {
         .finally(() => setIsLoading(false));
     }
   }, [id]);
+
+  const handleAddEventToCalendar = async () => {
+    const startDate = new Date(event.dateStart);
+    const endDate = new Date(event.dateEnd);
+    startDate.setHours(startDate.getUTCHours());
+    endDate.setHours(endDate.getUTCHours());
+
+    const eventModel = {
+      summary: event?.name,
+      location: `${event?.address}, ${event?.city}, ${event?.postcode} - ${event?.country}`,
+      description: event?.description,
+      start: {
+        dateTime: startDate,
+      },
+      end: {
+        dateTime: endDate,
+      },
+    };
+    try {
+      const result = await axios.post(
+        "https://www.googleapis.com/calendar/v3/calendars/primary/events",
+        eventModel,
+        {
+          headers: {
+            Authorization: "Bearer " + tokenGoogle,
+            "Content-Type": "application/json",
+          },
+        },
+      );
+
+      console.log(result);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <main className="bg-gray-100 min-h-screen">
@@ -77,7 +116,7 @@ const EventPage = () => {
                   {event.information}
                 </p>
               </div>
-              <div className="shadow-xl shadow-gray-300 h-fit bg-white p-4 xl:p-8 space-y-5">
+              <div className="shadow-xl shadow-gray-300 h-fit bg-white p-4 xl:p-8 space-y-5 min-w-0 lg:min-w-fit">
                 <h2 className="font-roboto font-bold text-base sm:text-xl lg:text-2xl">
                   Event Detail
                 </h2>
@@ -108,20 +147,28 @@ const EventPage = () => {
                     <MapPin />
                   </div>
                   <p className="text-start text-sm sm:text-sm text-gray-500">
-                    {`${event?.address}, ${event?.city}, ${event?.postcode} - ${event?.country}`}
+                    {`${event?.address}, ${event?.city}`} <br />
+                    {`${event?.postcode} - ${event?.country}`}
                   </p>
                 </div>
 
                 <p className="text-justify text-sm mt-3 sm:text-base sm:mt-6 text-gray-500 flex gap-3 justify-start items-center">
                   &nbsp;
-                  {event.price === "Free"
-                    ? `${event.price}`
-                    : `£ ${event.price}`}
+                  {event?.price === "Free"
+                    ? `${event?.price}`
+                    : `£ ${event?.price}`}
                 </p>
                 <hr className="my-4" />
                 <div className="flex flex-row justify-between items-center mt-3 gap-1 lg:gap-4">
                   <Button className="w-24 sm:w-32">Buy Now</Button>
-                  <Button className="w-auto">Add to Calendar</Button>
+                  {tokenGoogle && (
+                    <Alert
+                      buttonTitle="Add to Calendar"
+                      alertTitle="Are you sure?"
+                      alertText='When you click "Continue," the event details will be added to your Google Calendar. If you disagree, you can click "Cancel."'
+                      func={handleAddEventToCalendar}
+                    />
+                  )}
                 </div>
               </div>
             </section>
