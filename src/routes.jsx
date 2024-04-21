@@ -18,6 +18,7 @@ import ScrollToTop from "./components/ScrollToTop";
 import MenuNavBar from "./components/MenuNavBar";
 import Footer from "./components/Footer";
 import Loading from "./components/Loading";
+import PersistAdminLogin from "./components/PersistAdminLogin";
 
 const AppRoutes = () => {
   const { currentUser, isLoadingUser } = useAuthContext();
@@ -50,7 +51,10 @@ const AppRoutes = () => {
         />
         <Route path="*" element={<PageNotFound />} />
 
-        <Route path="/event/add" element={<AddEvent />} />
+        {/* ADMIN ROUTES */}
+        <Route element={<PersistAdminLogin />}>
+          <Route path="/event/add" element={<AddEvent />} />
+        </Route>
       </Routes>
 
       <Footer />
