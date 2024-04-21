@@ -29,7 +29,7 @@ import {
 import Error from "./Error";
 import { ArrowRight, Loader2Icon } from "lucide-react";
 
-import { uploadImage } from "@/services/cloudinary";
+import { uploadImage } from "@/services/cloudinary/cloudinary";
 import { convertToUTC } from "@/helpers/convertDateToUTC";
 
 const schema = z
