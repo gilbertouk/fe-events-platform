@@ -47,7 +47,7 @@ const MenuNavBar = () => {
       <div className="max-w-7xl mx-auto px-4 flex justify-between items-center">
         <h1 className="text-3xl font-bold">
           <Link to={"/"} className="hover:none">
-            EVENTS PLATFORM
+            {import.meta.env.VITE_COMPANY_NAME}
           </Link>
         </h1>
         <div className="flex items-center">

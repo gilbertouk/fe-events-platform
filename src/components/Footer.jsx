@@ -87,7 +87,10 @@ const Footer = () => {
         </div>
       </div>
       <div className="bg-gray-100 p-2 text-center">
-        <p>&copy; {getYear()}, Events Platform. All rights reserved</p>
+        <p>
+          &copy; {getYear()}, {import.meta.env.VITE_COMPANY_NAME}. All rights
+          reserved
+        </p>
       </div>
     </footer>
   );

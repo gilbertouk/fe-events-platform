@@ -6,8 +6,8 @@ const AboutPage = () => {
           About our Mission
         </h1>
         <p className="text-gray-500 text-justify">
-          Welcome to EVENTS PLATFORM, a platform created with the heart of the
-          community in mind.
+          Welcome to {import.meta.env.VITE_COMPANY_NAME}, a platform created
+          with the heart of the community in mind.
         </p>
         <p className="text-gray-500 text-justify">
           We are a small company passionate about connecting people and
@@ -17,11 +17,11 @@ const AboutPage = () => {
           celebration more accessible to everyone.
         </p>
         <p className="text-gray-500 text-justify">
-          With EVENTS PLATFORM, we offer an easy and efficient way for anyone,
-          from anywhere, to create and share events that matter. Whether
-          it&apos;s a local cooking class, a craft workshop, an educational
-          lecture, or a live music night, there&apos;s always something exciting
-          happening in our community.
+          With {import.meta.env.VITE_COMPANY_NAME}, we offer an easy and
+          efficient way for anyone, from anywhere, to create and share events
+          that matter. Whether it&apos;s a local cooking class, a craft
+          workshop, an educational lecture, or a live music night, there&apos;s
+          always something exciting happening in our community.
         </p>
         <p className="text-gray-500 text-justify">
           What sets us apart is our inclusive and flexible approach. Some events
@@ -39,10 +39,11 @@ const AboutPage = () => {
           efficiency.
         </p>
         <p className="text-gray-500 text-justify">
-          At EVENTS PLATFORM, we believe in the power of community. We&apos;re
-          here to empower individuals to share their talents, passions, and
-          knowledge, while fostering unity and collective growth. Join us as we
-          build together a future where everyone can connect, learn, and thrive.
+          At {import.meta.env.VITE_COMPANY_NAME}, we believe in the power of
+          community. We&apos;re here to empower individuals to share their
+          talents, passions, and knowledge, while fostering unity and collective
+          growth. Join us as we build together a future where everyone can
+          connect, learn, and thrive.
         </p>
         <p className="text-gray-500 text-justify">
           Welcome to our community. We look forward to creating, celebrating,

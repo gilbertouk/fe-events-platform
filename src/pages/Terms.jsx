@@ -7,7 +7,7 @@ const TermsPage = () => {
         </h1>
         <p className="text-gray-500 text-left sm:text-justify">
           Please read these Terms and Conditions of Use carefully before using
-          the EVENTS PLATFORM.
+          the {import.meta.env.VITE_COMPANY_NAME}.
         </p>
         <p className="text-gray-500 text-left sm:text-justify">
           Your access to and use of the Platform is conditioned on your
