@@ -19,6 +19,7 @@ import MenuNavBar from "./components/MenuNavBar";
 import Footer from "./components/Footer";
 import Loading from "./components/Loading";
 import PersistAdminLogin from "./components/PersistAdminLogin";
+import Checkout from "./pages/Checkout";
 
 const AppRoutes = () => {
   const { currentUser, isLoadingUser } = useAuthContext();
@@ -41,6 +42,10 @@ const AppRoutes = () => {
         <Route path="/about" element={<AboutPage />} />
         <Route path="/terms" element={<TermsPage />} />
         <Route path="/privacy" element={<PrivacyPage />} />
+        <Route
+          path="/checkout"
+          element={!currentUser ? <Navigate to={"/"} /> : <Checkout />}
+        />
         <Route
           path="/login"
           element={currentUser ? <Navigate to={"/"} /> : <LoginPage />}

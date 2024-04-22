@@ -9,21 +9,6 @@ import axios from "axios";
 import { api } from "../services/api";
 import usePrivateAxios from "@/hooks/usePrivateAxios";
 
-const schema = z
-  .object({
-    qtd: z.number().or(z.string()).pipe(z.coerce.number()),
-  })
-  .refine(
-    (data) => {
-      if (data.qtd <= 0 || data.qtd > 10) return false;
-      return true;
-    },
-    {
-      message: "Quantity must be a positive number between 0 and 10",
-      path: ["qtd"],
-    },
-  );
-
 import moment from "moment";
 
 import { Toaster, toast } from "sonner";
@@ -45,6 +30,21 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Loader2Icon } from "lucide-react";
+
+const schema = z
+  .object({
+    qtd: z.number().or(z.string()).pipe(z.coerce.number()),
+  })
+  .refine(
+    (data) => {
+      if (data.qtd <= 0 || data.qtd > 10) return false;
+      return true;
+    },
+    {
+      message: "Quantity must be a positive number between 0 and 10",
+      path: ["qtd"],
+    },
+  );
 
 const EventPage = () => {
   const { id } = useParams();
@@ -128,13 +128,22 @@ const EventPage = () => {
   const handleBuy = async (data) => {
     try {
       setIsRequestOrder(true);
+      localStorage.removeItem("order");
 
-      if (event.price === "Free") {
-        await privateAxios.post("/order/create-free-order", {
+      if (event?.price === "Free") {
+        const response = await privateAxios.post("/order/create-free-order", {
           quantity: data.qtd,
           email: userData.email,
           eventId: event.id,
         });
+
+        const eventData = {
+          id: response.data.body.id,
+          quantity: response.data.body.tickets,
+          price: event.price,
+        };
+
+        localStorage.setItem("order", JSON.stringify(eventData));
 
         navigate("/checkout?success=true");
         return;
@@ -151,7 +160,15 @@ const EventPage = () => {
         },
       );
 
-      const redirectUrl = response.data.body;
+      const eventData = {
+        id: response.data.body.order.id,
+        quantity: response.data.body.order.tickets,
+        price: event.price,
+      };
+
+      localStorage.setItem("order", JSON.stringify(eventData));
+
+      const redirectUrl = response.data.body.session.url;
 
       if (redirectUrl) {
         setRedirectLink(redirectUrl);
