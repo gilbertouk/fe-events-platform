@@ -20,6 +20,7 @@ import Footer from "./components/Footer";
 import Loading from "./components/Loading";
 import PersistAdminLogin from "./components/PersistAdminLogin";
 import Checkout from "./pages/Checkout";
+import Profile from "./pages/Profile";
 
 const AppRoutes = () => {
   const { currentUser, isLoadingUser } = useAuthContext();
@@ -45,6 +46,10 @@ const AppRoutes = () => {
         <Route
           path="/checkout"
           element={!currentUser ? <Navigate to={"/"} /> : <Checkout />}
+        />
+        <Route
+          path="/profile"
+          element={!currentUser ? <Navigate to={"/"} /> : <Profile />}
         />
         <Route
           path="/login"
