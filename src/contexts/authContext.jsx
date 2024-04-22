@@ -2,6 +2,7 @@ import { createContext, useEffect, useState } from "react";
 
 import { onAuthStateChanged } from "firebase/auth";
 import auth from "../config/firebase";
+import { apiPrivate } from "@/services/api";
 
 export const AuthContext = createContext(null);
 AuthContext.displayName = "Auth Context";
@@ -14,7 +15,17 @@ const AuthProvider = ({ children }) => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setCurrentUser(user);
-        setIsLoadingUser(false);
+        apiPrivate
+          .get(`/user/${user.email}`, {
+            headers: { Authorization: `Bearer ${user.accessToken}` },
+          })
+          .then((response) => {
+            const userData = response?.data?.body;
+            localStorage.setItem("token", user.accessToken);
+            localStorage.setItem("user", JSON.stringify(userData));
+
+            setIsLoadingUser(false);
+          });
       } else {
         setCurrentUser(null);
         setIsLoadingUser(false);

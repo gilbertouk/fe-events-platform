@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
-import { apiPrivate } from "@/services/api";
+import usePrivateAxios from "@/hooks/usePrivateAxios";
 import useCategoriesContext from "@/hooks/useCategoriesContext";
 
 import { Input } from "@/components/ui/input";
@@ -29,7 +29,7 @@ import {
 import Error from "./Error";
 import { ArrowRight, Loader2Icon } from "lucide-react";
 
-import { uploadImage } from "@/services/cloudinary/cloudinary";
+import { uploadImage } from "@/services/cloudinary";
 import { convertToUTC } from "@/helpers/convertDateToUTC";
 
 const schema = z
@@ -94,6 +94,7 @@ const EventForm = ({ setIsAddEvent, setPage }) => {
   const { categories } = useCategoriesContext();
   const [isRequestApi, setIsRequestApi] = useState(false);
   const [error, setError] = useState(null);
+  const privateAxios = usePrivateAxios();
   const form = useForm({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -133,7 +134,7 @@ const EventForm = ({ setIsAddEvent, setPage }) => {
     if (files) {
       let signature;
       try {
-        const getSignature = await apiPrivate.get(
+        const getSignature = await privateAxios.get(
           "/cloudinary/sign-upload-image?folder=events",
         );
         signature = getSignature?.data?.body;
@@ -164,7 +165,7 @@ const EventForm = ({ setIsAddEvent, setPage }) => {
     };
 
     try {
-      await apiPrivate.post("/event", eventData);
+      await privateAxios.post("/event", eventData);
       handleReset();
       form.reset();
       setPage(1);

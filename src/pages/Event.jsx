@@ -1,8 +1,28 @@
-import { useParams } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 import axios from "axios";
 import { api } from "../services/api";
+import usePrivateAxios from "@/hooks/usePrivateAxios";
+
+const schema = z
+  .object({
+    qtd: z.number().or(z.string()).pipe(z.coerce.number()),
+  })
+  .refine(
+    (data) => {
+      if (data.qtd <= 0 || data.qtd > 10) return false;
+      return true;
+    },
+    {
+      message: "Quantity must be a positive number between 0 and 10",
+      path: ["qtd"],
+    },
+  );
 
 import moment from "moment";
 
@@ -10,18 +30,40 @@ import { Toaster, toast } from "sonner";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import CalendarDays from "@/components/icons/CalendarDays";
 import MapPin from "@/components/icons/MapPin";
-import { Button } from "@/components/ui/button";
 import Loading from "@/components/Loading";
 import Error from "@/components/Error";
 import ResourceNotAvailable from "@/components/ResourceNotAvailable";
 import Alert from "@/components/Alert";
+import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Loader2Icon } from "lucide-react";
 
 const EventPage = () => {
   const { id } = useParams();
   const [event, setEvent] = useState(null);
   const [error, setError] = useState(null);
+  const [isRequestOrder, setIsRequestOrder] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [redirectLink, setRedirectLink] = useState("");
   const tokenGoogle = localStorage.getItem("tokenGoogle");
+  const userData = JSON.parse(localStorage.getItem("user"));
+  const privateAxios = usePrivateAxios();
+  const navigate = useNavigate();
+
+  const form = useForm({
+    resolver: zodResolver(schema),
+    defaultValues: {
+      qtd: "",
+    },
+  });
 
   useEffect(() => {
     if (id) {
@@ -83,10 +125,53 @@ const EventPage = () => {
     }
   };
 
+  const handleBuy = async (data) => {
+    try {
+      setIsRequestOrder(true);
+
+      if (event.price === "Free") {
+        await privateAxios.post("/order/create-free-order", {
+          quantity: data.qtd,
+          email: userData.email,
+          eventId: event.id,
+        });
+
+        navigate("/checkout?success=true");
+        return;
+      }
+
+      const response = await privateAxios.post(
+        "/order/create-checkout-session",
+        {
+          quantity: data.qtd,
+          priceStripeId: event.priceStripeId,
+          email: userData.email,
+          name: userData.firstName + " " + userData.surname,
+          eventId: event.id,
+        },
+      );
+
+      const redirectUrl = response.data.body;
+
+      if (redirectUrl) {
+        setRedirectLink(redirectUrl);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsRequestOrder(false);
+    }
+  };
+
+  if (redirectLink) {
+    window.location.href = redirectLink;
+    return null;
+  }
+
   return (
     <main className="bg-gray-100 min-h-screen">
       <Toaster closeButton richColors />
-
+      {redirectLink && <p>Redirecting to checkout...</p>}
       <div className="max-w-screen-xl w-auto mx-auto">
         {isLoading && <Loading />}
         {!isLoading && error && <Error />}
@@ -151,7 +236,6 @@ const EventPage = () => {
                       .format("ddd, DD MMM YYYY - H:mm")}
                   </p>
                 </div>
-
                 <div className="flex justify-start items-center gap-3">
                   <div>
                     <MapPin />
@@ -168,18 +252,60 @@ const EventPage = () => {
                     ? `${event?.price}`
                     : `£ ${event?.price}`}
                 </p>
-                <hr className="my-4" />
-                <div className="flex flex-row justify-between items-center mt-3 gap-1 lg:gap-4">
-                  <Button className="w-24 sm:w-32">Buy Now</Button>
-                  {tokenGoogle && (
-                    <Alert
-                      buttonTitle="Add to Calendar"
-                      alertTitle="Are you sure?"
-                      alertText='When you click "Continue," the event details will be added to your Google Calendar. If you disagree, you can click "Cancel."'
-                      func={handleAddEventToCalendar}
-                    />
-                  )}
-                </div>
+
+                <Form {...form}>
+                  <form onSubmit={form.handleSubmit(handleBuy)}>
+                    <div>
+                      <FormField
+                        className="text-right"
+                        control={form.control}
+                        name="qtd"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Quantity</FormLabel>
+                            <FormControl>
+                              <Input
+                                className="w-fit sm:w-auto"
+                                required
+                                type="number"
+                                placeholder="Quantity"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage className="w-fit sm:max-w-64" />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+
+                    <hr className="my-4" />
+                    <div className="flex flex-row justify-between items-center mt-3 gap-1 lg:gap-4">
+                      <Button
+                        className="w-24 sm:w-32"
+                        type="submit"
+                        // onClick={handleBuy}
+                        disabled={isRequestOrder}
+                      >
+                        {isRequestOrder ? (
+                          <>
+                            <Loader2Icon className="mr-2 h-4 w-4 animate-spin" />
+                            Please wait
+                          </>
+                        ) : (
+                          <>Buy Now</>
+                        )}
+                      </Button>
+                      {tokenGoogle && (
+                        <Alert
+                          buttonTitle="Add to Calendar"
+                          alertTitle="Are you sure?"
+                          alertText='When you click "Continue," the event details will be added to your Google Calendar. If you disagree, you can click "Cancel."'
+                          func={handleAddEventToCalendar}
+                        />
+                      )}
+                    </div>
+                  </form>
+                </Form>
               </div>
             </section>
           </>
