@@ -17,6 +17,12 @@ Link to the Back-End project below.
 
 <a href='https://github.com/gilbertouk/be-events-platfrom' target="_blank">https://github.com/gilbertouk/be-events-platfrom</a>
 
+Note: If you want to log in with an administrator account on the front-end. With this user you will have access to the form to create new events on the website.
+
+Use this email and password:
+email: admin@mail.com
+password: 10203040
+
 ## How to initialize this project
 
 To run this project you need the following programs:
