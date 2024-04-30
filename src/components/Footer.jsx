@@ -9,19 +9,19 @@ const Footer = () => {
 
   return (
     <footer>
-      <div className="bg-black flex flex-col items-center justify-center gap-12 sm:flex-row sm:items-start sm:justify-evenly py-4 px-8">
-        <div className="text-white">
+      <div className="bg-black flex items-start justify-between gap-12 sm:flex-row sm:items-start sm:justify-evenly py-4 px-8">
+        {/* <div className="text-white">
           <p className="text-base sm:text-lg mb-2">FIND EVENTS</p>
           <ul className="text-xs sm:text-sm flex gap-1 flex-col items-center sm:items-start">
             <li>This week</li>
             <li>This weekend</li>
             <li>This month</li>
           </ul>
-        </div>
+        </div> */}
 
         <div className="text-white">
           <p className="text-base sm:text-lg mb-2">USEFUL LINKS</p>
-          <ul className="text-xs sm:text-sm flex gap-1 flex-col items-center sm:items-start">
+          <ul className="text-xs sm:text-sm flex gap-1 flex-col items-start">
             <li>
               <Link to="/">Home</Link>
             </li>
@@ -42,7 +42,7 @@ const Footer = () => {
 
         <div className="text-white">
           <p className="text-base sm:text-lg mb-2">FOLLOW US</p>
-          <ul className="text-xs sm:text-sm flex gap-1 flex-col items-center sm:items-start">
+          <ul className="text-xs sm:text-sm flex gap-1 flex-col items-start">
             <li>
               <a
                 className="inline-flex items-center justify-center gap-2"
