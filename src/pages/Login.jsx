@@ -61,10 +61,9 @@ const LoginPage = () => {
       localStorage.setItem("user", JSON.stringify(userData));
 
       setCurrentUser(user);
-      navigate(state.prev);
+      navigate(state?.prev);
     } catch (error) {
       const errorCode = error.code;
-      console.log(errorCode);
       if (errorCode === "auth/invalid-credential") {
         setErrorMessage("Invalid email or password");
         return;
@@ -104,7 +103,7 @@ const LoginPage = () => {
       const userData = response?.data?.body;
 
       localStorage.setItem("user", JSON.stringify(userData));
-      navigate(state.prev);
+      navigate(state?.prev);
     } catch (error) {
       if (
         error?.response?.status === 404 &&
@@ -122,7 +121,7 @@ const LoginPage = () => {
           .then((response) => {
             const user = response.data?.body;
             localStorage.setItem("user", JSON.stringify(user));
-            navigate(state.prev);
+            navigate(state?.prev);
           })
           .catch((error) => console.log(error));
       }
