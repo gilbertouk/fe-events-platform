@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import {
   signInWithEmailAndPassword,
@@ -31,6 +31,7 @@ const LoginPage = () => {
   auth.useDeviceLanguage();
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
+  const { state } = useLocation();
   const { setCurrentUser } = useAuthContext();
 
   const {
@@ -60,7 +61,7 @@ const LoginPage = () => {
       localStorage.setItem("user", JSON.stringify(userData));
 
       setCurrentUser(user);
-      navigate("/");
+      navigate(state.prev);
     } catch (error) {
       const errorCode = error.code;
       console.log(errorCode);
@@ -103,7 +104,7 @@ const LoginPage = () => {
       const userData = response?.data?.body;
 
       localStorage.setItem("user", JSON.stringify(userData));
-      navigate("/");
+      navigate(state.prev);
     } catch (error) {
       if (
         error?.response?.status === 404 &&
@@ -121,7 +122,7 @@ const LoginPage = () => {
           .then((response) => {
             const user = response.data?.body;
             localStorage.setItem("user", JSON.stringify(user));
-            navigate("/");
+            navigate(state.prev);
           })
           .catch((error) => console.log(error));
       }

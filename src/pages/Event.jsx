@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { api } from "../services/api";
 import usePrivateAxios from "@/hooks/usePrivateAxios";
+import useAuthContext from "@/hooks/useAuthContext";
 
 import moment from "moment";
 
@@ -57,6 +58,7 @@ const EventPage = () => {
   const userData = JSON.parse(localStorage.getItem("user"));
   const privateAxios = usePrivateAxios();
   const navigate = useNavigate();
+  const { currentUser } = useAuthContext();
 
   const form = useForm({
     resolver: zodResolver(schema),
@@ -126,6 +128,10 @@ const EventPage = () => {
   };
 
   const handleBuy = async (data) => {
+    if (!currentUser) {
+      navigate("/login", { state: { prev: location.pathname } });
+    }
+
     try {
       setIsRequestOrder(true);
       localStorage.removeItem("order");
@@ -300,7 +306,6 @@ const EventPage = () => {
                       <Button
                         className="w-24 sm:w-32"
                         type="submit"
-                        // onClick={handleBuy}
                         disabled={isRequestOrder}
                       >
                         {isRequestOrder ? (
