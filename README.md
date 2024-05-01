@@ -15,7 +15,7 @@ Link to the hosted version of the Front-End below.
 
 Link to the Back-End project below.
 
-<a href='https://github.com/gilbertouk/be-events-platfrom' target="_blank">https://github.com/gilbertouk/be-events-platfrom</a>
+<a href='https://github.com/gilbertouk/be-events-platform' target="_blank">https://github.com/gilbertouk/be-events-platform</a>
 
 Note: If you want to log in with an administrator account on the front-end. With this user you will have access to the form to create new events on the website.
 
