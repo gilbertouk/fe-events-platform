@@ -41,7 +41,7 @@ const schema = z
       return true;
     },
     {
-      message: "Quantity must be a positive number between 0 and 10",
+      message: "Quantity must be a positive number between 1 and 10",
       path: ["qtd"],
     },
   );
