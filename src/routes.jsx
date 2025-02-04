@@ -42,7 +42,7 @@ const AppRoutes = () => {
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/terms" element={<TermsPage />} />
-        <Route path="/privacy" element={<PrivacyPage />} />
+        <Route path="/privacy-policy" element={<PrivacyPage />} />
         <Route
           path="/checkout"
           element={!currentUser ? <Navigate to={"/"} /> : <Checkout />}
